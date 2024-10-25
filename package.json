@@ -10,8 +10,15 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "appwrite": "^14.0.1",
+    "dotenv": "^16.4.5",
+    "lucide-vue-next": "^0.453.0",
     "nuxt": "^3.13.2",
+    "shadcn-nuxt": "^0.10.4",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.2"
   }
 }
