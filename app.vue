@@ -1,8 +1,8 @@
 <template>
   <div>
-    <StockOverview></StockOverview>
+    <NuxtPage></NuxtPage>
   </div>
 </template>
 <script setup lang="ts">
-import StockOverview from "~/pages/StockOverview.vue";
+import StockOverview from "~/pages/stock-overview.vue";
 </script>
