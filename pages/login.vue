@@ -6,13 +6,16 @@ const { user, loading, login, logout } = useAppwriteAuth();
 
 const email = ref('')
 const password = ref('')
+const router = useRouter()
 
 
 const handleLogin = async () => {
   try {
     await login(email.value, password.value);
+    await router.push('/stock-overview');
     // Redirect or show success message
   } catch (error) {
+    console.log(error)
     // Handle error
   }
 };
