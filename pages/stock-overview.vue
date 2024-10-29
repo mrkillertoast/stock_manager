@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/table'
 import { Search } from 'lucide-vue-next'
 import type { Ref } from "vue";
+import type { IStockItem } from "~/interfaces/IStockItem";
 
 definePageMeta({
   middleware: [ 'auth' ],
@@ -17,7 +18,7 @@ definePageMeta({
 });
 
 const { $appwrite } = useNuxtApp();
-const products: Ref<Document[] | undefined[]> = ref([])
+const products: Ref<IStockItem[] | undefined[]> = ref([])
 
 const getProducts = async () => {
   let promise = $appwrite.databases.listDocuments("671fe58d001e645a7db6", "671fe5aa0019b0178339")
@@ -34,8 +35,8 @@ getProducts()
 const searchString: Ref<string> = ref('')
 
 const filteredItems = computed(() => {
-  return products.value.filter((item) => {
-    return item.name.toLowerCase().match(searchString.value.toLowerCase());
+  return products.value.filter((item: IStockItem | undefined) => {
+    return item?.name.toLowerCase().match(searchString.value.toLowerCase());
   })
 })
 
@@ -57,30 +58,20 @@ const filteredItems = computed(() => {
       </div>
     </div>
 
+    {{filteredItems}}
+
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableCaption>List of all Stocked Goods</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead class="w-[100px]">
-            Invoice
-          </TableHead>
           <TableHead>Name</TableHead>
-          <TableHead>Menge</TableHead>
-          <TableHead class="text-right">
-            Amount
-          </TableHead>
+          <TableHead>Amount</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell class="font-medium">
-            INV001
-          </TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell class="text-right">
-            $250.00
-          </TableCell>
+        <TableRow v-for="item in filteredItems" :key="item?.$id">
+          <TableCell>{{ item?.name }}</TableCell>
+          <TableCell>{{ item?.amount }}</TableCell>
         </TableRow>
       </TableBody>
     </Table>
