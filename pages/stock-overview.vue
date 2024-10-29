@@ -8,6 +8,24 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+
+definePageMeta({
+  middleware: ['auth'],
+  requiresAuth: true
+});
+
+/*
+const getProducts = async () => {
+  let promise = databases.listDocuments("671fe58d001e645a7db6", "671fe5aa0019b0178339")
+  promise.then(function (response) {
+    products.value = response.documents
+    console.log(response);
+  }, function (error) {
+    console.log(error);
+  });
+}*/
+
+
 </script>
 
 <template>
@@ -19,8 +37,8 @@ import {
         <TableHead class="w-[100px]">
           Invoice
         </TableHead>
-        <TableHead>Status</TableHead>
-        <TableHead>Method</TableHead>
+        <TableHead>Name</TableHead>
+        <TableHead>Menge</TableHead>
         <TableHead class="text-right">
           Amount
         </TableHead>
