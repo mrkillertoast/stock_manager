@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
 	compatibilityDate: '2024-04-03',
 	devtools: { enabled: true },
-	modules: [ '@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxt/icon' ],
+	modules: [
+		'@nuxtjs/tailwindcss',
+		'shadcn-nuxt',
+		'@nuxt/icon',
+		'@nuxtus/nuxt-localtunnel',
+	],
 	shadcn: {
 		/**
 		 * Prefix for all the imported component
@@ -21,4 +26,7 @@ export default defineNuxtConfig({
 			appwriteProjectId: process.env.APPWRITE_PROJECT_ID,
 		}
 	},
+	localtunnel:{
+		local_https: true
+	}
 })

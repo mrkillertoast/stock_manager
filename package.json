@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "host": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -13,6 +14,7 @@
     "@vueuse/core": "^11.1.0",
     "appwrite": "^14.0.1",
     "dotenv": "^16.4.5",
+    "html5-qrcode": "^2.3.8",
     "lucide-vue-next": "^0.454.0",
     "nuxt": "^3.13.2",
     "radix-vue": "^1.9.8",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "@nuxt/icon": "^1.6.1",
     "@nuxtjs/tailwindcss": "^6.12.2",
+    "@nuxtus/nuxt-localtunnel": "^1.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.4",
