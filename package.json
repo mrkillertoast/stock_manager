@@ -11,6 +11,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxthub/core": "^0.8.4",
     "@vueuse/core": "^11.1.0",
     "appwrite": "^14.0.1",
     "dotenv": "^16.4.5",
@@ -26,7 +27,6 @@
   "devDependencies": {
     "@nuxt/icon": "^1.6.1",
     "@nuxtjs/tailwindcss": "^6.12.2",
-    "@nuxtus/nuxt-localtunnel": "^1.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.4",
