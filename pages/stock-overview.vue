@@ -2,7 +2,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -11,6 +10,7 @@ import {
 import { Search } from 'lucide-vue-next'
 import type { Ref } from "vue";
 import type { IStockItem } from "~/interfaces/IStockItem";
+import type { Models } from "appwrite";
 
 definePageMeta({
   middleware: [ 'auth' ],
@@ -23,8 +23,9 @@ const products: Ref<IStockItem[] | undefined[]> = ref([])
 const getProducts = async () => {
   let promise = $appwrite.databases.listDocuments("671fe58d001e645a7db6", "671fe5aa0019b0178339")
   promise.then(function (response) {
-    products.value = response.documents
-    console.log(response);
+    products.value = response.documents.map((doc: Models.Document): IStockItem => {
+      return { $id: doc.$id, name: doc.name, amount: doc.amount, ean: doc.ean };
+    })
   }, function (error) {
     console.log(error);
   });
@@ -58,10 +59,7 @@ const filteredItems = computed(() => {
       </div>
     </div>
 
-    {{filteredItems}}
-
     <Table>
-      <TableCaption>List of all Stocked Goods</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
