@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import type { Html5QrcodeResult } from "html5-qrcode/core";
 
+definePageMeta({
+  middleware: [ 'auth' ],
+  requiresAuth: true
+});
+
 const scanResult = ref('')
 
 function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
