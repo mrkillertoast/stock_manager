@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5Qrcode, Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 import type { Html5QrcodeError, Html5QrcodeResult } from "html5-qrcode/core";
 
 const props = defineProps({
@@ -14,23 +14,32 @@ const props = defineProps({
 })
 
 const emit = defineEmits([ 'result' ])
+let html5QrCode: Html5Qrcode
 
 function onScanSuccess(decodedText: string, decodedResult: Html5QrcodeResult) {
+  console.log(decodedResult)
   emit('result', decodedText, decodedResult);
+  html5QrCode.stop()
 }
 
-function handleError(errorMessage: string, error: Html5QrcodeError) {
+function handleError(errorMessage: string,) {
   console.log(errorMessage)
+  //todo: Add proper Error handling
 }
 
 onMounted(() => {
   const config = {
     fps: props.fps,
     qrbox: props.qrbox,
+    rememberLastUsedCamera: true,
+    supportedScanTypes: [ Html5QrcodeScanType.SCAN_TYPE_CAMERA ],
+    useBarCodeDetectorIfSupported: true
   };
-  const scanner = new Html5QrcodeScanner('qr-code-full-region', config, true)
-  scanner.render(onScanSuccess, handleError);
+
+  html5QrCode = new Html5Qrcode("qr-code-full-region");
+  html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess, handleError);
 })
+
 </script>
 
 <template>

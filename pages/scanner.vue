@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { Html5QrcodeResult } from "html5-qrcode/core";
+
 const scanResult = ref('')
 
-function onScan(decodedText, decodedResult) {
-  console.log(decodedText)
+function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
   scanResult.value = decodedText
 }
 </script>
@@ -11,9 +12,9 @@ function onScan(decodedText, decodedResult) {
   <ClientOnly>
     {{ scanResult }}
     <code-scanner
-        :qrbox="250"
+        :qrbox="200"
         :fps="10"
-        style="width: 500px;"
+        style="width: 300px;"
         @result="onScan"
     />
   </ClientOnly>
