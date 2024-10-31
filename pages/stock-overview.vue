@@ -76,13 +76,13 @@ const filteredItems = computed(() => {
         </TableBody>
       </Table>
     </div>
-    <FooterNavigation/>
   </div>
+    <FooterNavigation/>
 </template>
 
 <style scoped>
 .variable-container {
-  height: calc(100dvh - 12rem);
+  height: calc(100dvh - 4rem);
   overflow: auto;
 }
 </style>
