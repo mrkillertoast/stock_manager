@@ -22,7 +22,7 @@ function toggleScan() {
 </script>
 
 <template>
-  <div class="scanner-page mt-5 grid place-items-center gap-5">
+  <div class="scanner-page mt-5 grid place-items-center gap-0 variable-container">
     <section class="camera-header h-12 grid grid-cols-4 place-items-center w-[300px]">
       <div class="col-span-3 justify-self-start text-2xl font-bold">
         Scan a Barcode
@@ -71,12 +71,18 @@ function toggleScan() {
       </div>
     </section>
   </div>
+  <FooterNavigation />
 </template>
 
 <style scoped>
 .scanner-placeholder {
   width: 300px;
   height: 300px;
+}
+
+.variable-container {
+  height: calc(100dvh - 4rem);
+  overflow: auto;
 }
 
 </style>
