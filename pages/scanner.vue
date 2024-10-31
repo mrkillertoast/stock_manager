@@ -16,15 +16,22 @@ function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
 <template>
   <ClientOnly>
     {{ scanResult }}
-    <code-scanner
+    <!--<code-scanner
+        class="scanner-bo"
         :qrbox="200"
         :fps="10"
-        style="width: 300px;"
+        style="width: 300px;height: 300px"
         @result="onScan"
-    />
+    />-->
+    <div class="camera-area"></div>
   </ClientOnly>
 </template>
 
 <style scoped>
+.camera-area {
+  width: 300px;
+  height: 300px;
+  background-color: #0047e1;
+}
 
 </style>

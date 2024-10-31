@@ -30,10 +30,14 @@ function handleError(errorMessage: string,) {
 onMounted(() => {
   const config = {
     fps: props.fps,
-    qrbox: props.qrbox,
-    rememberLastUsedCamera: true,
-    supportedScanTypes: [ Html5QrcodeScanType.SCAN_TYPE_CAMERA ],
-    useBarCodeDetectorIfSupported: true
+    qrbox: {
+      width: 250,
+      height: 100,
+    },
+    aspectRatio: 1
+    //rememberLastUsedCamera: true,
+    //supportedScanTypes: [ Html5QrcodeScanType.SCAN_TYPE_CAMERA ],
+    //useBarCodeDetectorIfSupported: true
   };
 
   html5QrCode = new Html5Qrcode("qr-code-full-region");
