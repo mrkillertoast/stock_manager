@@ -11,6 +11,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Query } from "appwrite";
+import type { Ref } from "vue";
+import type { IStockItem } from "~/interfaces/IStockItem";
 
 definePageMeta({
   middleware: [ 'auth' ],
@@ -25,19 +27,25 @@ async function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
 
 async function handleData() {
   const res = await getProduct(scanResult.value)
-  console.log(res)
+
+  if(res?.total === 0){
+    //TODO: Add function to get from Openfood API
+  }
+
+  if(res?.total > 1){
+    //TODO: ADD Toast: "ERROR: More than one item found"
+  }
+
+
+  //TODO: Implement function on chase that only 1 is found.
+
 }
 
 //get Data from API
 const { $appwrite } = useNuxtApp();
 
 const getProduct = async (eanToFind: string) => {
-  let promise = $appwrite.databases.listDocuments("671fe58d001e645a7db6", "671fe5aa0019b0178339", [ Query.equal('ean', eanToFind) ])
-  promise.then(function (response) {
-    return response
-  }, function (error) {
-    console.log(error);
-  });
+  return $appwrite.databases.listDocuments("671fe58d001e645a7db6", "671fe5aa0019b0178339", [ Query.equal('ean', eanToFind) ])
 }
 
 
@@ -100,7 +108,7 @@ const getProduct = async (eanToFind: string) => {
         </Tabs>
       </div>
       <div class="amount-selector">
-        <NumberField id="amount" :default-value="0" >
+        <NumberField id="amount" :default-value="0">
           <Label for="amount">Amount</Label>
           <NumberFieldContent>
             <NumberFieldDecrement/>
@@ -110,7 +118,7 @@ const getProduct = async (eanToFind: string) => {
         </NumberField>
       </div>
       <div class="save-container ">
-        <Button class="w-full">Save Item</Button>
+        <Button class="w-full" @click="handleData">Save Item</Button>
       </div>
     </section>
   </div>
