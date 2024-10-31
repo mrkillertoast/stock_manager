@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import type { Html5QrcodeResult } from "html5-qrcode/core";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  NumberField,
+  NumberFieldContent,
+  NumberFieldDecrement,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from '@/components/ui/number-field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Query } from "appwrite";
@@ -10,15 +17,16 @@ definePageMeta({
   requiresAuth: true
 });
 
-const scanResult = ref('Nothing scan or something went to shit... We never know')
+const scanResult = ref('')
 
 async function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
   scanResult.value = decodedText
-  const res = await getProduct(decodedText)
-  console.log(res)
 }
 
-async function handleData (){}
+async function handleData() {
+  const res = await getProduct(scanResult.value)
+  console.log(res)
+}
 
 //get Data from API
 const { $appwrite } = useNuxtApp();
@@ -66,7 +74,7 @@ const getProduct = async (eanToFind: string) => {
                 class="scanner-placeholder rounded-xl shadow-2xl bg-gray-400 text-center text-2xl grid place-items-center p-3">
               <div class="manual-search">
                 <Label for="ean-search" class="align-self-start">EAN-Search</Label>
-                <Input id="ean-search" type="text" placeholder="Enter EAN-Number"/>
+                <Input id="ean-search" type="text" placeholder="Enter EAN-Number" v-model="scanResult"/>
               </div>
             </div>
           </TabsContent>
@@ -75,6 +83,11 @@ const getProduct = async (eanToFind: string) => {
     </section>
     <section class="article-options grid gap-4 p-4 rounded-xl shadow-2xl bg-neutral-100">
       <div class="mode-switcher">
+        <div class="ean-code">
+          <Label for="found-ean" class="align-self-start">EAN-Code</Label>
+          <Input disabled id="found-ean" type="text" placeholder="Enter code or scan using cam" v-model="scanResult"/>
+        </div>
+        <br>
         <Tabs default-value="add" class="w-[268px] shadow rounded-xl">
           <TabsList class="w-full">
             <TabsTrigger value="add" class="w-full">
@@ -87,10 +100,14 @@ const getProduct = async (eanToFind: string) => {
         </Tabs>
       </div>
       <div class="amount-selector">
-        <div class="grid w-[268px] items-center gap-1.5">
+        <NumberField id="amount" :default-value="0" >
           <Label for="amount">Amount</Label>
-          <Input id="amount" type="Number" placeholder="Enter Amount"/>
-        </div>
+          <NumberFieldContent>
+            <NumberFieldDecrement/>
+            <NumberFieldInput/>
+            <NumberFieldIncrement/>
+          </NumberFieldContent>
+        </NumberField>
       </div>
       <div class="save-container ">
         <Button class="w-full">Save Item</Button>
