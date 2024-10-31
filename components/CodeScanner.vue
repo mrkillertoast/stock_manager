@@ -27,6 +27,10 @@ function handleError(errorMessage: string,) {
   //todo: Add proper Error handling
 }
 
+onBeforeUnmount(()=>{
+  html5QrCode.stop()
+})
+
 onMounted(() => {
   const config = {
     fps: props.fps,
@@ -47,7 +51,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="qr-code-full-region"></div>
+  <div id="qr-code-full-region" class=""></div>
 </template>
 
 <style scoped>
