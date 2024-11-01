@@ -111,7 +111,7 @@ async function handleData() {
             <code-scanner
                 :qrbox="150"
                 :fps="10"
-                style="width: 300px;height: 400px;"
+                style="width: 300px;height: 300px;"
                 @result="onScan"
             />
           </TabsContent>

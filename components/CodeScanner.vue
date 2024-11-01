@@ -9,7 +9,7 @@ const props = defineProps({
   },
   fps: {
     type: Number,
-    default: 10
+    default: 60
   }
 })
 
