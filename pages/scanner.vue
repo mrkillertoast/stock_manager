@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label'
 import findEanInDB from "~/utils/database/findEanInDB";
 import updateDocument from "~/utils/database/updateDocument";
 import { useToast } from "~/components/ui/toast";
+import PageHeader from "~/components/PageHeader.vue";
 
 definePageMeta({
   middleware: [ 'auth' ],
@@ -92,11 +93,7 @@ async function handleData() {
 
 <template>
   <div class="scanner-page grid place-items-center gap-0 variable-container">
-    <section class="camera-header h-12 grid place-items-center w-[300px]">
-      <div class="text-2xl font-bold">
-        Scan a Barcode
-      </div>
-    </section>
+    <PageHeader title="Scan Barcode" />
     <section class="camera-body">
       <ClientOnly>
         <Tabs default-value="camera" class="w-[300px] shadow rounded-xl">
