@@ -10,15 +10,20 @@ import {
 } from '@/components/ui/number-field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import findEanInDB from "~/utils/findEanInDB";
+import findEanInDB from "~/utils/database/findEanInDB";
+import updateDocument from "~/utils/database/updateDocument";
+import { useToast } from "~/components/ui/toast";
 
 definePageMeta({
   middleware: [ 'auth' ],
   requiresAuth: true
 });
 
+const { toast } = useToast()
+
 const scanResult = ref('')
 const tabAddRemove = ref('add')
+const newAmount = ref(0)
 
 async function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
   scanResult.value = decodedText
@@ -27,19 +32,59 @@ async function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
 async function handleData() {
   const res = await findEanInDB(scanResult.value)
 
-  if(res?.total === 0){
+  if (res?.total === 0) {
     //TODO: Add function to get from Openfood API
   }
 
-  if(res?.total > 1){
-    //TODO: ADD Toast: "ERROR: More than one item found"
+  if (res?.total > 1) {
+    toast({
+      title: 'Error',
+      description: `Database contains more than 1 document with this EAN Code`,
+      variant: "destructive"
+    })
   }
 
-  console.log(res.documents[0])
+  const document = res.documents[ 0 ];
 
-  //TODO: Implement function on chase that only 1 is found.
+  let amount = document.amount
+  switch (tabAddRemove.value) {
+    case 'add':
+      amount = amount + newAmount.value
+      break
+    case 'remove':
+      amount = amount - newAmount.value
+      break
+  }
 
+  if (amount < 0) {
+    amount = 0
+    toast({
+      title: 'Amount Changed',
+      description: `The amount was changed to 0`,
+      variant: "default"
+    })
+  }
+
+  try {
+    await updateDocument(document.$id, { 'amount': amount })
+        .then((res) => {
+          console.log(res)
+          toast({
+            title: 'Change successful',
+            description: `Database was updated new amount ${ res.amount }`,
+            variant: "success"
+          })
+        });
+  } catch (error) {
+    console.log(error)
+    toast({
+      title: 'ERROR',
+      description: `${ error }`,
+      variant: "destructive"
+    })
+  }
 }
+
 
 </script>
 
@@ -52,9 +97,9 @@ async function handleData() {
     </section>
     <section class="camera-body">
       <ClientOnly>
-        <Tabs default-value="camera" class="w-[300px] shadow rounded-xl" >
+        <Tabs default-value="camera" class="w-[300px] shadow rounded-xl">
           <TabsList class="w-full">
-            <TabsTrigger value="camera" class="w-full" >
+            <TabsTrigger value="camera" class="w-full">
               Camera
             </TabsTrigger>
             <TabsTrigger value="manual" class="w-full">
@@ -100,7 +145,7 @@ async function handleData() {
         </Tabs>
       </div>
       <div class="amount-selector">
-        <NumberField id="amount" :default-value="0">
+        <NumberField id="amount" :default-value="0" v-model="newAmount">
           <Label for="amount">Amount</Label>
           <NumberFieldContent>
             <NumberFieldDecrement/>

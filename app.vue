@@ -1,8 +1,10 @@
+<script setup lang="ts">
+import { Toaster } from '@/components/ui/toast'
+</script>
+
 <template>
   <div>
+    <Toaster/>
     <NuxtPage></NuxtPage>
   </div>
 </template>
-<script setup lang="ts">
-import StockOverview from "~/pages/stock-overview.vue";
-</script>
