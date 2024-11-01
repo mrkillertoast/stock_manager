@@ -1,4 +1,5 @@
 export enum Routes {
 	OVERVIEW = 'stock-overview',
-	SCANNER = 'scanner'
+	SCANNER = 'scanner',
+	NEW_ITEM = 'new-product'
 }

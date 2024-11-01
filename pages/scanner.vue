@@ -14,6 +14,7 @@ import findEanInDB from "~/utils/database/findEanInDB";
 import updateDocument from "~/utils/database/updateDocument";
 import { useToast } from "~/components/ui/toast";
 import PageHeader from "~/components/PageHeader.vue";
+import { Routes } from "~/enums/RoutesEnum";
 
 definePageMeta({
   middleware: [ 'auth' ],
@@ -21,6 +22,7 @@ definePageMeta({
 });
 
 const { toast } = useToast()
+const router = useRouter()
 
 const scanResult = ref('')
 const tabAddRemove = ref('add')
@@ -34,7 +36,7 @@ async function handleData() {
   const res = await findEanInDB(scanResult.value)
 
   if (res?.total === 0) {
-    //TODO: Add function to get from Openfood API
+    await router.push(`${ Routes.NEW_ITEM }/${ scanResult.value }`)
     return
   }
 
@@ -93,7 +95,7 @@ async function handleData() {
 
 <template>
   <div class="scanner-page grid place-items-center gap-0 variable-container">
-    <PageHeader title="Scan Barcode" />
+    <PageHeader title="Scan Barcode"/>
     <section class="camera-body">
       <ClientOnly>
         <Tabs default-value="camera" class="w-[300px] shadow rounded-xl">
