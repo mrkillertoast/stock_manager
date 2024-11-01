@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Routes } from "~/enums/RoutesEnum";
+
 const props = defineProps({
   title: {
     type: String,
@@ -6,6 +8,8 @@ const props = defineProps({
   },
   showAbort: Boolean
 })
+
+const router = useRouter()
 
 </script>
 
@@ -15,7 +19,7 @@ const props = defineProps({
       {{ props.title }}
     </div>
     <div class="abort-button place-self-end" v-show="props.showAbort">
-      <Button size="icon">X</Button>
+      <Button size="icon" @click="router.push(Routes.OVERVIEW)">X</Button>
     </div>
   </section>
 </template>
