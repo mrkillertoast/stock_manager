@@ -34,6 +34,7 @@ async function handleData() {
 
   if (res?.total === 0) {
     //TODO: Add function to get from Openfood API
+    return
   }
 
   if (res?.total > 1) {
@@ -42,6 +43,7 @@ async function handleData() {
       description: `Database contains more than 1 document with this EAN Code`,
       variant: "destructive"
     })
+    return
   }
 
   const document = res.documents[ 0 ];
