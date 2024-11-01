@@ -11,7 +11,6 @@ import {
 import { toast } from '~/components/ui/toast'
 import { Label } from "~/components/ui/label";
 import createNewDbItem from "~/utils/database/createNewDbItem";
-import updateDocument from "~/utils/database/updateDocument";
 
 const route = useRoute()
 const product_id: string = route.params.id

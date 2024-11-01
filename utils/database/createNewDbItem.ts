@@ -1,4 +1,4 @@
-import { ID, Query } from "appwrite";
+import { ID } from "appwrite";
 
 export default async function (data: Object) {
 	const { $appwrite } = useNuxtApp();
