@@ -109,9 +109,9 @@ async function handleData() {
           </TabsList>
           <TabsContent value="camera">
             <code-scanner
-                :qrbox="200"
+                :qrbox="150"
                 :fps="10"
-                style="width: 300px;height: 300px;"
+                style="width: 300px;height: 400px;"
                 @result="onScan"
             />
           </TabsContent>
@@ -166,7 +166,7 @@ async function handleData() {
 <style scoped>
 .scanner-placeholder {
   width: 300px;
-  height: 300px;
+  height: 400px;
 }
 
 .variable-container {
