@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Html5Qrcode, Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
-import type { Html5QrcodeError, Html5QrcodeResult } from "html5-qrcode/core";
+import { Html5Qrcode } from "html5-qrcode";
+import type { Html5QrcodeResult } from "html5-qrcode/core";
 
 const props = defineProps({
   qrbox: {
@@ -27,7 +27,7 @@ function handleError(errorMessage: string,) {
   //todo: Add proper Error handling
 }
 
-onBeforeUnmount(()=>{
+onBeforeUnmount(() => {
   html5QrCode.stop()
 })
 
