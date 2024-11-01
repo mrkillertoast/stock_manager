@@ -10,9 +10,7 @@ import {
 } from '@/components/ui/number-field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Query } from "appwrite";
-import type { Ref } from "vue";
-import type { IStockItem } from "~/interfaces/IStockItem";
+import findEanInDB from "~/utils/findEanInDB";
 
 definePageMeta({
   middleware: [ 'auth' ],
@@ -20,13 +18,14 @@ definePageMeta({
 });
 
 const scanResult = ref('')
+const tabAddRemove = ref('add')
 
 async function onScan(decodedText: string, decodedResult: Html5QrcodeResult) {
   scanResult.value = decodedText
 }
 
 async function handleData() {
-  const res = await getProduct(scanResult.value)
+  const res = await findEanInDB(scanResult.value)
 
   if(res?.total === 0){
     //TODO: Add function to get from Openfood API
@@ -36,18 +35,11 @@ async function handleData() {
     //TODO: ADD Toast: "ERROR: More than one item found"
   }
 
+  console.log(res.documents[0])
 
   //TODO: Implement function on chase that only 1 is found.
 
 }
-
-//get Data from API
-const { $appwrite } = useNuxtApp();
-
-const getProduct = async (eanToFind: string) => {
-  return $appwrite.databases.listDocuments("671fe58d001e645a7db6", "671fe5aa0019b0178339", [ Query.equal('ean', eanToFind) ])
-}
-
 
 </script>
 
@@ -60,9 +52,9 @@ const getProduct = async (eanToFind: string) => {
     </section>
     <section class="camera-body">
       <ClientOnly>
-        <Tabs default-value="camera" class="w-[300px] shadow rounded-xl">
+        <Tabs default-value="camera" class="w-[300px] shadow rounded-xl" >
           <TabsList class="w-full">
-            <TabsTrigger value="camera" class="w-full">
+            <TabsTrigger value="camera" class="w-full" >
               Camera
             </TabsTrigger>
             <TabsTrigger value="manual" class="w-full">
@@ -96,7 +88,7 @@ const getProduct = async (eanToFind: string) => {
           <Input disabled id="found-ean" type="text" placeholder="Enter code or scan using cam" v-model="scanResult"/>
         </div>
         <br>
-        <Tabs default-value="add" class="w-[268px] shadow rounded-xl">
+        <Tabs v-model="tabAddRemove" class="w-[268px] shadow rounded-xl">
           <TabsList class="w-full">
             <TabsTrigger value="add" class="w-full">
               Add
