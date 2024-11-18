@@ -18,7 +18,34 @@ const cookingTime = ref(30)
 
 //Cooking Experience Handling
 const cookingExperienceOptions = [ 'Easy', 'Medium', 'Hard' ]
-const cookingExperience = ref(0)
+const cookingExperience = ref('Medium')
+
+function handleCookingExperienceChange(option:string) {
+  cookingExperience.value = option
+}
+
+
+const additionalNotes = ref('')
+
+async function handleRecipeGeneration(){
+  const payload ={
+    mode: mode.value,
+    portionSize: portionSize.value,
+    cookingTime: cookingTime.value,
+    cookingExperience: cookingExperience.value,
+    additionalNotes: additionalNotes.value,
+  }
+
+  try {
+    const response = await $fetch('/api/v1/new-recipe', {
+      method: 'POST',
+      body: { payload }
+    })
+    console.log('GPT response:', response)
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}
 
 </script>
 
@@ -66,7 +93,7 @@ const cookingExperience = ref(0)
         </NumberField>
         <div class="flex flex-col mt-2">
           <Label for="cooking-experience">Cooking Experience</Label>
-          <ThreeOptionSwitch id="cooking-experience" :options="cookingExperienceOptions" v-model="cookingExperience"/>
+          <ThreeOptionSwitch id="cooking-experience" :options="cookingExperienceOptions" v-model="cookingExperience" @selected-option="handleCookingExperienceChange" />
         </div>
         <div class="excluded-nutrients mt-2 flex flex-col">
           <Label for="cooking-experience">Select Diet</Label>
@@ -75,11 +102,11 @@ const cookingExperience = ref(0)
         <div class="additional-prompt">
           <Label for="additional-notes">Additional notes / remarques </Label>
           <Textarea id="additional-notes" class="w-full rounded-2xl p-1 text-sm"
-                    placeholder="ex. I would like something fruity."/>
+                    placeholder="ex. I would like something fruity." v-model="additionalNotes"/>
         </div>
       </CardContent>
       <CardFooter>
-        <Button class="w-full">Create Recipe</Button>
+        <Button class="w-full" @click="handleRecipeGeneration">Create Recipe</Button>
       </CardFooter>
     </Card>
   </div>

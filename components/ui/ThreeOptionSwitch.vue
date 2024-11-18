@@ -10,7 +10,9 @@ const props = defineProps({
     default: ['Option1','Option2','Option3']
   }
 })
+const emits = defineEmits(['selectedOption'])
 const selected = ref('option1')
+
 </script>
 
 <template>
@@ -23,7 +25,7 @@ const selected = ref('option1')
           class="flex items-center justify-center w-1/3 py-2 rounded-full cursor-pointer transition-colors"
           :class="{ 'bg-white shadow-sm': selected === option }"
       >
-        <RadioGroupItem :value="option" :id="option" class="sr-only"/>
+        <RadioGroupItem :value="option" :id="option" class="sr-only" @click="$emit('selectedOption', option)"/>
         {{ option }}
       </Label>
     </div>
