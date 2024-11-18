@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 	},
 	ssr: false,
 	runtimeConfig: {
-		openAIApiKey: process.env.OPENAI_APIKEY,
+		openAIApiKey: process.env.OPENAI_API_KEY,
 		public: {
 			appwriteEndpoint: process.env.APPWRITE_ENDPOINT,
 			appwriteProjectId: process.env.APPWRITE_PROJECT_ID,
