@@ -1,0 +1,3 @@
+[submodule "cooking_buddy_appwrite_functions"]
+	path = cooking_buddy_appwrite_functions
+	url = git@github.com:mrkillertoast/cooking_buddy_appwrite_functions.git
