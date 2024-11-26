@@ -42,6 +42,10 @@ async function handleRecipeGeneration() {
   try {
     const response = await $fetch('https://673f8ac59830d9770f2e.appwrite.global', {
       method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: { payload }
     })
     console.log(response)
