@@ -40,14 +40,16 @@ async function handleRecipeGeneration() {
   }
 
   try {
-    const response = await $fetch('/api/v1/new-recipe', {
+    const response = await $fetch('http://673f8ac59830d9770f2e.appwrite.global', {
       method: 'POST',
       body: { payload }
     })
-    generatedRecipe.value = response.content
-    responseMode.value = !responseMode.value
+    console.log(response)
+    //generatedRecipe.value = response.content
+    //responseMode.value = !responseMode.value
   } catch (error) {
-    generatedRecipe.value = error
+    console.log(error)
+    //generatedRecipe.value = error
   }
 }
 
