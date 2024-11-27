@@ -11,10 +11,9 @@ import { Label } from '@/components/ui/label'
 import PageHeader from "~/components/PageHeader.vue";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import ThreeOptionSwitch from "~/components/ui/ThreeOptionSwitch.vue";
-import { Client, ExecutionMethod, Functions } from "appwrite";
+import { ExecutionMethod } from "appwrite";
 
-const client = new Client();
-const functions = new Functions(client);
+const { $appwrite } = useNuxtApp();
 
 const mode = ref('new')
 const portionSize = ref(2)
@@ -45,7 +44,7 @@ async function handleRecipeGeneration() {
 
   const dataString = JSON.stringify(payload);
 
-  const promise = functions.createExecution(
+  const promise = $appwrite.functions.createExecution(
       '673f8ac40039efd09005',  // functionId
       `${ dataString }`,  // body (optional)
       true,  // async (optional)

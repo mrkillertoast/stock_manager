@@ -1,4 +1,4 @@
-import { Client, Account, Databases } from 'appwrite';
+import { Client, Account, Databases, Functions } from 'appwrite';
 import { defineNuxtPlugin } from '#app';
 
 export default defineNuxtPlugin(async (nuxtApp) => {
@@ -11,6 +11,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
 	const account = new Account(client);
 	const databases = new Databases(client);
+	const functions = new Functions(client);
 
 	// Make client and account available throughout the app
 	return {
@@ -18,7 +19,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 			appwrite: {
 				client,
 				account,
-				databases
+				databases,
+				functions
 			}
 		}
 	};
