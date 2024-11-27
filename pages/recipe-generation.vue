@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   NumberField,
   NumberFieldContent,
@@ -11,6 +11,10 @@ import { Label } from '@/components/ui/label'
 import PageHeader from "~/components/PageHeader.vue";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import ThreeOptionSwitch from "~/components/ui/ThreeOptionSwitch.vue";
+import { Client, ExecutionMethod, Functions } from "appwrite";
+
+const client = new Client();
+const functions = new Functions(client);
 
 const mode = ref('new')
 const portionSize = ref(2)
@@ -39,22 +43,25 @@ async function handleRecipeGeneration() {
     additionalNotes: additionalNotes.value,
   }
 
-  try {
-    const response = await $fetch('https://673f8ac59830d9770f2e.appwrite.global', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: { payload }
-    })
-    console.log(response)
-    //generatedRecipe.value = response.content
-    //responseMode.value = !responseMode.value
-  } catch (error) {
-    console.log(error)
-    //generatedRecipe.value = error
-  }
+  const dataString = JSON.stringify(payload);
+
+  const promise = functions.createExecution(
+      '673f8ac40039efd09005',  // functionId
+      `${ dataString }`,  // body (optional)
+      true,  // async (optional)
+      '',  // path (optional)
+      ExecutionMethod.POST,  // method (optional)
+      {
+        'Content-Type': 'application/json'
+      } // headers (optional)
+  );
+
+
+  promise.then(function (response) {
+    console.log(response); // Success
+  }, function (error) {
+    console.log(error); // Failure
+  });
 }
 
 </script>
