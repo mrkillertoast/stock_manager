@@ -43,12 +43,11 @@ async function handleRecipeGeneration() {
   }
 
   const dataString = JSON.stringify(payload);
-
   const promise = $appwrite.functions.createExecution(
       '673f8ac40039efd09005',  // functionId
       `${ dataString }`,  // body (optional)
       true,  // async (optional)
-      '',  // path (optional)
+      '/',  // path (optional)
       ExecutionMethod.POST,  // method (optional)
       {
         'Content-Type': 'application/json'
